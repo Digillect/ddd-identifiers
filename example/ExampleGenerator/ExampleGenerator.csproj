@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+    <LangVersion>default</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <IsRoslynComponent>true</IsRoslynComponent>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <GetTargetPathDependsOn>$(GetTargetPathDependsOn);_GetTargetPathDependsOn</GetTargetPathDependsOn>
+  </PropertyGroup>
+
+  <Target Name="_GetTargetPathDependsOn">
+    <ItemGroup>
+      <TargetPathWithTargetPlatformMoniker Include="$(ProjectDir)\..\..\src\Digillect.DDD.Identifiers.SourceGenerator.Framework\$(OutputPath)\*.dll" IncludeRuntimeDependency="false" />
+      <TargetPathWithTargetPlatformMoniker Include="$(ProjectDir)\..\..\src\Digillect.DDD.Identifiers.SourceGenerator.Framework.MongoDB\$(OutputPath)\*.dll" IncludeRuntimeDependency="false" />
+    </ItemGroup>
+  </Target>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Digillect.DDD.Identifiers.SourceGenerator.Framework\Digillect.DDD.Identifiers.SourceGenerator.Framework.csproj" PrivateAssets="all" />
+    <ProjectReference Include="..\..\src\Digillect.DDD.Identifiers.SourceGenerator.Framework.MongoDB\Digillect.DDD.Identifiers.SourceGenerator.Framework.MongoDB.csproj" PrivateAssets="all" />
+  </ItemGroup>
+
+</Project>
