@@ -14,7 +14,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleGenerator", "example
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution items", "Solution items", "{D43BFC27-0099-4C80-8CDF-24DD71B23B27}"
 	ProjectSection(SolutionItems) = preProject
-		Directory.Build.Props = Directory.Build.Props
+		Directory.Build.props = Directory.Build.props
 		GitVersion.yml = GitVersion.yml
 		README.md = README.md
 		.github\workflows\ci.yml = .github\workflows\ci.yml
@@ -24,6 +24,11 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Digillect.DDD.Identifiers.SourceGenerator.MongoDB", "src\Digillect.DDD.Identifiers.SourceGenerator.MongoDB\Digillect.DDD.Identifiers.SourceGenerator.MongoDB.csproj", "{12DA569A-3EA7-4DC0-83ED-FACAC743D92B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{9E0FE2AC-04F0-4263-916A-AFC5A43FB856}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sources", "Sources", "{EC3A359D-ADDC-4A9F-A008-C2114ED5E289}"
+	ProjectSection(SolutionItems) = preProject
+		src\Directory.Build.props = src\Directory.Build.props
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,5 +68,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{7481613C-F8FB-4B2D-A49A-C7CF58030469} = {9E0FE2AC-04F0-4263-916A-AFC5A43FB856}
 		{3142B885-249B-452F-B53B-2E47BC6B989D} = {9E0FE2AC-04F0-4263-916A-AFC5A43FB856}
+		{EC3A359D-ADDC-4A9F-A008-C2114ED5E289} = {D43BFC27-0099-4C80-8CDF-24DD71B23B27}
 	EndGlobalSection
 EndGlobal
