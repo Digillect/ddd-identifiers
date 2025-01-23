@@ -3,8 +3,6 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>Digillect.DDD.Identifiers.SourceGenerator</RootNamespace>
-    <LangVersion>default</LangVersion>
-    <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Title>Components to generate identifiers based on the MongoDB ObjectId type.</Title>
   </PropertyGroup>
