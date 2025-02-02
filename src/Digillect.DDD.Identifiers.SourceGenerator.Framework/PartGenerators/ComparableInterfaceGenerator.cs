@@ -18,6 +18,11 @@ public abstract class ComparableInterfaceGenerator : IIdentifierPartGenerator
 	{
 		writer.WriteLine($"public int CompareTo({identifier.Name} other)");
 		writer.WriteBlock(() => GenerateCompareToBody(identifier, writer));
+		writer.WriteEmptyLine();
+		writer.WriteLine($"public static bool operator <(in {identifier.Name} left, in {identifier.Name} right) => left.CompareTo(right) < 0;");
+		writer.WriteLine($"public static bool operator <=(in {identifier.Name} left, in {identifier.Name} right) => left.CompareTo(right) <= 0;");
+		writer.WriteLine($"public static bool operator >(in {identifier.Name} left, in {identifier.Name} right) => left.CompareTo(right) > 0;");
+		writer.WriteLine($"public static bool operator >=(in {identifier.Name} left, in {identifier.Name} right) => left.CompareTo(right) >= 0;");
 	}
 
 	protected abstract void GenerateCompareToBody(Identifier identifier, IndentedTextWriter writer);
