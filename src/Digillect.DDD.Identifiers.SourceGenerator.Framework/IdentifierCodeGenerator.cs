@@ -2,21 +2,23 @@
 
 namespace Digillect.DDD.Identifiers.SourceGenerator;
 
-internal class CodeGenerator(Identifier identifier)
+internal class IdentifierCodeGenerator(Identifier identifier)
 {
 	/// <summary>
     /// Генерирует код идентификатора для указанной модели.
     /// </summary>
     /// <returns>Исходный код генератора</returns>
     /// <exception cref="ArgumentOutOfRangeException">При некорректном типе значения идентификатора.</exception>
-    public string Emit()
+    public GeneratedSource Generate()
 	{
 		var stringWriter = new StringWriter();
 		var indentedTextWriter = new IndentedTextWriter(stringWriter);
 
         Emit(indentedTextWriter);
 
-        return stringWriter.ToString();
+        return new GeneratedSource(
+			$"{identifier.Namespace}.{identifier.Name}.g.cs",
+			stringWriter.ToString());
     }
 
     /// <summary>

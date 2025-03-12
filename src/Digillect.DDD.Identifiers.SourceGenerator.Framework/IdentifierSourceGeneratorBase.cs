@@ -36,15 +36,46 @@ public abstract class IdentifierSourceGeneratorBase : IIncrementalGenerator
     }
 
 	private static void GenerateCode(SourceProductionContext context, ImmutableArray<Identifier> identifiers)
+	{
+		GenerateIdentifierSources(context, identifiers);
+		GenerateAdditionalSources(context, identifiers);
+	}
+
+	private static void GenerateIdentifierSources(SourceProductionContext context, ImmutableArray<Identifier> identifiers)
     {
         foreach (var identifier in identifiers.OfType<Identifier>())
 		{
-			var codeGenerator = new CodeGenerator(identifier);
+			var codeGenerator = new IdentifierCodeGenerator(identifier);
 
-            string code = codeGenerator.Emit();
+            var generated = codeGenerator.Generate();
 
-            // Add the source code to the compilation
-            context.AddSource($"{identifier.Namespace}.{identifier.Name}.g.cs", SourceText.From(code, Encoding.UTF8));
+            context.AddSource(generated.FileName, SourceText.From(generated.SourceCode, Encoding.UTF8));
         }
     }
+
+	private static void GenerateAdditionalSources(SourceProductionContext context, ImmutableArray<Identifier> identifiers)
+	{
+		var groupedGenerators =
+			from identifier in identifiers.OfType<Identifier>()
+			from additionalSourceGeneratorsProvider in identifier.Type.Generators.OfType<IAdditionalSourceInformationProvider>()
+			from generatorType in additionalSourceGeneratorsProvider.GetAdditionalSourceGenerators(identifier)
+			let info = new { GeneratorType = generatorType, Identifier = identifier }
+			group info by info.GeneratorType
+			into g
+			select g;
+
+		foreach (var groupedGenerator in groupedGenerators)
+		{
+			var generatorIdentifiers = groupedGenerator.Select(g => g.Identifier).ToImmutableArray();
+
+			if (Activator.CreateInstance(groupedGenerator.Key, generatorIdentifiers)! is not IAdditionalSourceCodeGenerator codeGenerator)
+			{
+				continue;
+			}
+
+			var generated = codeGenerator.Generate();
+
+			context.AddSource(generated.FileName, SourceText.From(generated.SourceCode, Encoding.UTF8));
+		}
+	}
 }
