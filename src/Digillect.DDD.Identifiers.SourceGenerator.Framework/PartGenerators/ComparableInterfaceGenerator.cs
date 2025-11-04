@@ -40,15 +40,12 @@ public sealed class StringComparableInterfaceGenerator : ComparableInterfaceGene
 {
 	protected override void GenerateCompareToBody(Identifier identifier, IndentedTextWriter writer)
 	{
-		writer.WriteLine($"public int CompareTo({identifier.Name} other)");
+		writer.WriteLine("return (Value, other.Value) switch");
 		writer.WriteBlock(() => {
-			writer.WriteLine("return (Value, other.Value) switch");
-			writer.WriteBlock(() => {
-				writer.WriteLine("(null, null) => 0,");
-				writer.WriteLine("(null, _) => -1,");
-				writer.WriteLine("(_, null) => 2,");
-				writer.WriteLine("(_, _) => Value.CompareTo(other.Value)");
-			}, withSemicolon: true);
-		});
+			writer.WriteLine("(null, null) => 0,");
+			writer.WriteLine("(null, _) => -1,");
+			writer.WriteLine("(_, null) => 2,");
+			writer.WriteLine("(_, _) => Value.CompareTo(other.Value)");
+		}, withSemicolon: true);
 	}
 }

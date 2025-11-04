@@ -12,6 +12,9 @@ public readonly partial struct GuidBasedIdentifier;
 [Identifier<ObjectId>]
 public readonly partial struct ObjectIdBasedIdentifier;
 
+[Identifier<string>]
+public readonly partial struct StringBasedIdentifier;
+
 [AttributeUsage(AttributeTargets.Struct)]
 public sealed class IdentifierAttribute : Attribute
 {

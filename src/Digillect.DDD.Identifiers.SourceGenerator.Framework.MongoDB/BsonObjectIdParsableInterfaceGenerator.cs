@@ -5,6 +5,9 @@ namespace Digillect.DDD.Identifiers.SourceGenerator;
 
 public sealed class BsonObjectIdParsableInterfaceGenerator : ParsableInterfaceGenerator
 {
+	public override IEnumerable<string> GenerateInterfaces(Identifier identifier) =>
+		[$"global::System.IParsable<{identifier.Name}>"];
+
 	/// <inheritdoc />
 	protected override void EmitParseBody(Identifier identifier, IndentedTextWriter writer)
 	{
@@ -24,5 +27,15 @@ public sealed class BsonObjectIdParsableInterfaceGenerator : ParsableInterfaceGe
 		writer.WriteLine("result = default;");
 		writer.WriteEmptyLine();
 		writer.WriteLine("return false;");
+	}
+
+	protected override void EmitUtf8SpanParseBody(Identifier identifier, IndentedTextWriter writer)
+	{
+		writer.WriteLine("throw new NotImplementedException();");
+	}
+
+	protected override void EmitUtf8SpanTryParseBody(Identifier identifier, IndentedTextWriter writer)
+	{
+		writer.WriteLine("throw new NotImplementedException();");
 	}
 }
