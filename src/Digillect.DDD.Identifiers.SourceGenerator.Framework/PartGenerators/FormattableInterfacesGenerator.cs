@@ -16,7 +16,7 @@ public abstract class FormattableInterfacesGenerator : IIdentifierPartGenerator
 		writer.WriteLine("public string ToString(string? format, global::System.IFormatProvider? formatProvider)");
 		writer.WriteBlock(() => EmitFormattableBody(identifier, writer));
 		writer.WriteEmptyLine();
-		writer.WriteLine("public bool TryFormat(global::System.Span<byte> utf8Destination, out int bytesWritten, global::System.ReadOnlySpan<char> format, global::System.IFormatProvider? formatProvider)");
+		writer.WriteLine("public bool TryFormat(global::System.Span<byte> utf8Destination, out int bytesWritten, global::System.ReadOnlySpan<char> format, global::System.IFormatProvider? provider)");
 		writer.WriteBlock(() => EmitUtf8SpanFormattableBody(identifier, writer));
 	}
 
@@ -33,7 +33,7 @@ public sealed class DefaultFormattableInterfacesGenerator : FormattableInterface
 
 	protected override void EmitUtf8SpanFormattableBody(Identifier identifier, IndentedTextWriter writer)
 	{
-		writer.WriteLine("return ((global::System.IUtf8SpanFormattable) Value).TryFormat(utf8Destination, out bytesWritten, format, formatProvider);");
+		writer.WriteLine("return ((global::System.IUtf8SpanFormattable) Value).TryFormat(utf8Destination, out bytesWritten, format, provider);");
 	}
 }
 
@@ -54,7 +54,7 @@ public sealed class GuidFormattableInterfacesGenerator : FormattableInterfacesGe
 {
 	protected override void EmitFormattableBody(Identifier identifier, IndentedTextWriter writer)
 	{
-		writer.WriteLine("return Value.ToString(format, formatProvider);");
+		writer.WriteLine("return Value.ToString(format, provider);");
 	}
 
 	protected override void EmitUtf8SpanFormattableBody(Identifier identifier, IndentedTextWriter writer)

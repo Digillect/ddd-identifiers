@@ -130,9 +130,14 @@ public sealed class IntegerParsableInterfaceGenerator : ParsableInterfaceGenerat
 	protected override void EmitUtf8SpanTryParseBody(Identifier identifier, IndentedTextWriter writer)
 	{
 		writer.WriteLine("if (!global::System.Buffers.Text.Utf8Parser.TryParse(utf8Text, out int value, out _))");
-		writer.WriteBlock(() => writer.WriteLine("return false;"));
+		writer.WriteBlock(() => {
+			writer.WriteLine("result = default;");
+			writer.WriteLine("return false;");
+		});
 		writer.WriteEmptyLine();
-		writer.WriteLine($"return new {identifier.Name}(value);");
+		writer.WriteLine($"result = new {identifier.Name}(value);");
+		writer.WriteEmptyLine();
+		writer.WriteLine("return true;");
 	}
 }
 
