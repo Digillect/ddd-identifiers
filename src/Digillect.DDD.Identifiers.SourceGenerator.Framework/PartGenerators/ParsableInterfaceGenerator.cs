@@ -60,14 +60,13 @@ public sealed class GuidParsableInterfaceGenerator : ParsableInterfaceGenerator
 	{
 		writer.WriteLine("if (global::System.Guid.TryParse(s, provider, out global::System.Guid parsedValue))");
 		writer.WriteBlock(() => {
-			writer.WriteLine($"result = new {identifier.Name}(parsedValue);");
-			writer.WriteEmptyLine();
-			writer.WriteLine("return true;");
+			writer.WriteLine("result = default;");
+			writer.WriteLine("return false;");
 		});
 		writer.WriteEmptyLine();
-		writer.WriteLine("result = default;");
+		writer.WriteLine($"result = new {identifier.Name}(parsedValue);");
 		writer.WriteEmptyLine();
-		writer.WriteLine("return false;");
+		writer.WriteLine("return true;");
 	}
 
 	/// <inheritdoc />
@@ -105,16 +104,15 @@ public sealed class IntegerParsableInterfaceGenerator : ParsableInterfaceGenerat
 	/// <inheritdoc />
 	protected override void EmitTryParseBody(Identifier identifier, IndentedTextWriter writer)
 	{
-		writer.WriteLine("if (int.TryParse(s, provider, out int parsedValue))");
+		writer.WriteLine("if (!int.TryParse(s, provider, out int value))");
 		writer.WriteBlock(() => {
-			writer.WriteLine($"result = new {identifier.Name}(parsedValue);");
-			writer.WriteEmptyLine();
-			writer.WriteLine("return true;");
+			writer.WriteLine("result = default;");
+			writer.WriteLine("return false;");
 		});
 		writer.WriteEmptyLine();
-		writer.WriteLine("result = default;");
+		writer.WriteLine($"result = new {identifier.Name}(value);");
 		writer.WriteEmptyLine();
-		writer.WriteLine("return false;");
+		writer.WriteLine("return true;");
 	}
 
 	/// <inheritdoc />
@@ -150,7 +148,7 @@ public sealed class StringParsableInterfaceGenerator : ParsableInterfaceGenerato
 
 	protected override void EmitTryParseBody(Identifier identifier, IndentedTextWriter writer)
 	{
-		writer.WriteLine("if (string.IsNullOrWhiteSpace(s))");
+		writer.WriteLine("if (s is null)");
 		writer.WriteBlock(() => {
 			writer.WriteLine("result = default;");
 			writer.WriteLine("return false;");
