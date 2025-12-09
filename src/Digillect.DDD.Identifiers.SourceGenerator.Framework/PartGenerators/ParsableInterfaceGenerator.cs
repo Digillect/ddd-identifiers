@@ -58,7 +58,7 @@ public sealed class GuidParsableInterfaceGenerator : ParsableInterfaceGenerator
 	/// <inheritdoc />
 	protected override void EmitTryParseBody(Identifier identifier, IndentedTextWriter writer)
 	{
-		writer.WriteLine("if (global::System.Guid.TryParse(s, provider, out global::System.Guid parsedValue))");
+		writer.WriteLine("if (!global::System.Guid.TryParse(s, provider, out global::System.Guid parsedValue))");
 		writer.WriteBlock(() => {
 			writer.WriteLine("result = default;");
 			writer.WriteLine("return false;");
